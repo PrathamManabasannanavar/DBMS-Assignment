@@ -1,0 +1,65 @@
+1.
+
+create table owner(
+ADN integer,
+name varchar(30),
+constraint ADHAR_PK_VIOLATION
+primary key(ADN)
+);
+
+insert into owner values(123456789012, 'Harish');
+
+2.
+create table PR(
+PID integer AUTO_INCREMENT not null,
+ADN integer not null,
+ptype varchar(30) not null,
+constraint PID_PK_VIOLATION
+primary key(PID, ADN),
+constraint ADN_FK_VIOLATION
+foreign key(ADN) references owner(ADN)
+)ENGINE=InnoDB;
+
+ALTER TABLE owner ENGINE=InnoDB;
+
+insert into PR values(11, 22);
+
+
+3.
+create table PROTYP(
+PID integer,
+name varchar(30),
+constraint PID_PK_CONSTRAINT primary key(PID),
+check(name in ('residential','Industrial property', 'Commercial property')),
+constraint PID_FK_ERR
+foreign key(PID) references PR(PID)
+)engine=InnoDB;
+
+insert into PROTYP values(2, 'residential');
+
+
+4.
+create table ten(
+TID integer primary key,
+name varchar(30) not null,
+ADN integer not null
+);
+
+insert into ten values(1, "Karan", 14526);
+
+5. 
+create table Payment(
+TID integer,
+PID integer,
+pdate date,
+constraint TID_PID_PDATE_PK_ERR_PAY
+primary key(TID, PID, pdate),
+constraint TID_FK_ERR_PAY
+foreign key(TID) references ten(TID),
+constraint PID_FK_ERR_PAY
+foreign key(PID) references pr(pid)
+)engine=InnoDB;
+
+insert into payment values(5, 5, '2024-10-19');
+
+ALTER TABLE Payment MODIFY pdate DATE primary key;
