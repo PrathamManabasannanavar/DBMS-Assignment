@@ -63,3 +63,184 @@ foreign key(PID) references pr(pid)
 insert into payment values(5, 5, '2024-10-19');
 
 ALTER TABLE Payment MODIFY pdate DATE primary key;
+
+6.
+create table hp(
+tid integer not null,
+pid integer not null,
+fdate date not null,
+tdate date,
+constraint TID_PID_PK_ERR
+primary key(tid, pid),
+constraint TID_FK_ERR_HP
+foreign key(tid) references ten(tid),
+constraint PID_FK_ERR_HP
+foreign key(pid) references pr(pid)
+)engine=InnoDB;
+
+insert into hp values(1, 2, '2023-08-02', '2023-09-02');
+
+----------------------------------------------------------------------------
+				Answers:-
+1.
+
+select * from payment where tid=301;
+o/p:-
+
+mysql> select * from payment where tid=301;
++-----+-----+------------+
+| TID | PID | pdate      |
++-----+-----+------------+
+| 301 |   2 | 2024-07-19 |
+| 301 |   4 | 2020-01-02 |
+| 301 |   4 | 2024-05-02 |
+| 301 |   4 | 2024-06-02 |
+| 301 |   4 | 2024-08-02 |
++-----+-----+------------+
+5 rows in set (0.01 sec)
+
+
+
+2.
+select t.*
+from ten t,  pr p, hp h, protyp pt
+where t.tid = h.tid and h.pid = p.pid and p.pid = pt.pid and pt.name = 'residential';
+
+mysql> select t.*
+    -> from ten t,  pr p, hp h, protyp pt
+    -> where t.tid = h.tid and h.pid = p.pid and p.pid = pt.pid and pt.name = 'residential';
+
++-----+-------+-----------+
+| TID | name  | ADN       |
++-----+-------+-----------+
+|   1 | Karan |     14526 |
+| 301 | Varun | 123456789 |
++-----+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from ten;
++-----+--------+-----------+
+| TID | name   | ADN       |
++-----+--------+-----------+
+|   1 | Karan  |     14526 |
+|   2 | Sagar  |      1426 |
+|   3 | Charan |        16 |
+|   4 | Rohit  |       516 |
+|   5 | Manoj  |       588 |
+|   6 | Naveen |        18 |
+| 301 | Varun  | 123456789 |
++-----+--------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from protyp;
++-----+---------------------+
+| PID | name                |
++-----+---------------------+
+|   1 | Commercial property |
+|   2 | residential         |
+|   3 | Industrial property |
+|   4 | Commercial property |
+|   5 | RESIDENTIAL         |
++-----+---------------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from hp;
++-----+-----+------------+------------+
+| tid | pid | fdate      | tdate      |
++-----+-----+------------+------------+
+|   1 |   1 | 2023-08-02 | 2023-09-02 |
+|   1 |   2 | 2023-08-02 | 2023-09-02 |
+|   1 |   4 | 2023-08-02 | 2023-09-02 |
+|   2 |   1 | 2020-08-02 | 2021-11-05 |
+|   2 |   3 | 2020-08-02 | 2021-11-05 |
+|   5 |   1 | 2020-08-02 | 2021-11-05 |
+| 301 |   1 | 2020-08-02 | 2021-11-05 |
+| 301 |   2 | 2020-08-02 | 2021-11-05 |
+| 301 |   4 | 2023-08-02 | 2023-09-02 |
++-----+-----+------------+------------+
+9 rows in set (0.00 sec)
+
+mysql>
+
+
+3.
+select p.*
+from pr p
+where p.pid not in
+(select distinct h.pid
+from hp h);
+
+mysql> select p.*
+    -> from pr p
+    -> where p.pid not in
+    -> (select distinct h.pid
+    -> from hp h);
++-----+--------+
+| PID | ADN    |
++-----+--------+
+|   5 | 123452 |
++-----+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from pr;
++-----+--------+
+| PID | ADN    |
++-----+--------+
+|   1 |     22 |
+|   2 |     22 |
+|   3 |     22 |
+|   4 | 123452 |
+|   5 | 123452 |
++-----+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from hp;
++-----+-----+------------+------------+
+| tid | pid | fdate      | tdate      |
++-----+-----+------------+------------+
+|   1 |   1 | 2023-08-02 | 2023-09-02 |
+|   1 |   2 | 2023-08-02 | 2023-09-02 |
+|   1 |   4 | 2023-08-02 | 2023-09-02 |
+|   2 |   1 | 2020-08-02 | 2021-11-05 |
+|   2 |   3 | 2020-08-02 | 2021-11-05 |
+|   5 |   1 | 2020-08-02 | 2021-11-05 |
+| 301 |   1 | 2020-08-02 | 2021-11-05 |
+| 301 |   2 | 2020-08-02 | 2021-11-05 |
+| 301 |   4 | 2023-08-02 | 2023-09-02 |
++-----+-----+------------+------------+
+9 rows in set (0.00 sec)
+
+mysql>
+
+
+4.
+select o.name ownername, t.tid tenantid
+from owner o, pr p, hp h, ten t
+where o.adn = p.adn and p.pid = h.pid and h.tid = t.tid;
+
+or
+using join(Inner Join)
+
+select p.pid, t.tid
+from pr p join ten t join hp h
+on p.pid=h.pid and h.tid=t.tid;
+
+o/p:-
+mysql> select o.name ownername, t.tid tenantid
+    -> from owner o, pr p, hp h, ten t
+    -> where o.adn = p.adn and p.pid = h.pid and h.tid = t.tid;
++-----------+----------+
+| ownername | tenantid |
++-----------+----------+
+| Manish    |        1 |
+| Manish    |        2 |
+| Manish    |        5 |
+| Manish    |      301 |
+| Manish    |        1 |
+| Manish    |      301 |
+| Manish    |        2 |
+| Arun      |        1 |
+| Arun      |      301 |
++-----------+----------+
+9 rows in set (0.00 sec)
+
