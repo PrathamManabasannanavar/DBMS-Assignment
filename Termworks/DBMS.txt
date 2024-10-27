@@ -1,0 +1,15 @@
+create table employee1(
+     name varchar(20),
+     id integer primary key
+    );
+
+insert into projects values(
+	"2PT", 3);
+
+create table link_project(
+	empID integer,
+	projectName varchar(30),
+	primary key(empID),
+	foreign key(empID)
+	references employee1(id)
+	);

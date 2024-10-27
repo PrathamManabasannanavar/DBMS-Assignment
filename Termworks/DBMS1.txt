@@ -1,0 +1,18 @@
+create table StudentDetails(
+ stid int primary key,
+stname varchar(30)
+);
+
+CREATE TABLE orders (
+    stid INT,
+    itemid INT,
+    CONSTRAINT STD_FK_ERR FOREIGN KEY (stid) REFERENCES customer(stid),
+    CONSTRAINT ITEMID_FK_ERR FOREIGN KEY (itemid) REFERENCES items(itemid)
+) ENGINE=InnoDB;
+
+ALTER TABLE items ENGINE=InnoDB;
+
+
+q2. select stid from orders group by stid having count(distinct itemid) = (select count(*) from items);
+
+q5. (select stid from customers) not in (select distinct stid from orders);

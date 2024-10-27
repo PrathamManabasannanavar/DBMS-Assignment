@@ -76,7 +76,7 @@ public class ReadWriteXExcel {
 	}
 	
 	public static void main(String[] args) {
-        String filePath = "D:\\DBMS Assignment\\Book1.xlsx"; // Path to your Excel file
+        String filePath = "D:\\Github\\DBMS Assignment\\Book1.xlsx"; // Path to your Excel file
         readExcelSheet(filePath);
         appendFile(filePath);
 	}
