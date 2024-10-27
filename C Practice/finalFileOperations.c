@@ -14,24 +14,28 @@ void appendFile(char *str);
 int main(){
     int choice;
     char str[SIZE];
+    printf("Enter (1-read) (2-write) (3-append) file\n");
     printf("Enter yoour choice\n");
     scanf("%d",&choice);
-
+    getchar();
     switch (choice)
     {
-    case 2:
-        printf("Enter the file name to write\n");
-        scanf("%s",str);
-        writeFile(str);
-        break;
     case 1:
         printf("Enter the file name to read\n");
         scanf("%s",str);
+        getchar(); //clr the I/P stream
         printf("The contents of the file are:\n%s\n",readFile(str));
+        break;
+    case 2:
+        printf("Enter the file name to write\n");
+        scanf("%s",str);
+        getchar();
+        writeFile(str);
         break;
     case 3:
         printf("Enter the file name to appended\n");
         scanf("%s",str);
+        getchar();
         appendFile(str);
         break;
     default:
@@ -57,12 +61,12 @@ void writeFile(char *filename){
 
 char *readFile(char *filename){
     char *str = (char *)malloc(SIZE*sizeof(char));
-    int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR );
+    int fd = open(filename, O_RDONLY);
     if(fd < 0){
         perror("Can't open this file\n");
         free(str);
         close(fd);
-        return "-1";
+        return NULL;
     }
     int bytesRead = read(fd, str, SIZE-1);
     str[bytesRead] = '\0';
