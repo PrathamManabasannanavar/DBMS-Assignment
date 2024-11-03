@@ -1,0 +1,58 @@
+-- create table projects(
+--     pid int primary key,
+--     pname varchar(30) not null
+-- );
+
+-- insert into projects values(4, 'DBMS4');
+
+-- select * from employee;
+
+-- create table assigned_to(
+-- 	empid int,
+--     pid int,
+--     primary key(empid, pid),
+--     foreign key(empid) references employee(empid),
+--     foreign key(pid) references projects(pid)
+-- );
+
+-- create synonym at for assigned_to;
+
+-- insert into assigned_to values(2, 3);
+
+-- drop table assigned_to;
+-- remove synonym ass_t;
+
+-- select * from tab;
+-- DROP SYNONYM at;
+
+-- SELECT trigger_name
+-- FROM user_triggers;
+-- drop trigger Assigned_toTrig;
+
+
+-- select * from assigned_to;
+
+-- insert into assigned_to values(2, 3);
+-- delete from assigned_to where pid=3;
+
+
+
+-- create or replace trigger assigned_toTrig
+-- before insert on assigned_to for each row
+-- declare
+--     projcount int;
+-- begin
+-- 	select count(distinct pid) into projcount from assigned_to at
+--     where :new.empid = at.empid;
+-- 	dbms_output.put_line(projcount);
+-- 	if(projCount >= 3) then
+--         RAISE_APPLICATION_ERROR(-20001, 'EMPLOYEE CANT WORK ON > 3 PROJECTS');
+--     	end if;
+-- end;
+
+
+-- SELECT trigger_name, status
+-- FROM user_triggers
+-- WHERE trigger_name = 'ASSIGNED_TOTRIG';
+
+select * from assigned_to;

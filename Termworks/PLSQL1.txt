@@ -1,0 +1,92 @@
+-- create table myTable(
+--     name varchar(20),
+--     id int
+-- )
+
+-- insert into myTable values('hi', 4);
+-- select * from myTable;
+-- select * from tab;
+-- declare
+--     myvar varchar(20);
+-- begin
+--     myvar := 'Boss';
+-- 	dbms_output.put_line('This is me');
+-- 	dbms_output.put_line(myvar);
+-- end;
+
+
+-- declare
+--     myname MyTable.name%type;
+-- 	myid int;
+-- begin
+-- 	select name, id into myname, myid
+-- 	from myTable;
+-- 	dbms_output.put_line(myname || ' ' || myid);
+-- end;
+
+
+-- create table employee(
+--     empid int primary key,
+--     name varchar(30) not null,
+--     salary decimal(10, 3)
+-- );
+
+-- insert into employee values(5, 'Jay', 5);
+
+-- select * from employee;
+
+
+-- declare
+-- emprow employee%ROWTYPE;
+-- begin
+-- 	select * into emprow
+--     from employee where empid=1;
+-- 	dbms_output.put_line(emprow.salary || ' ' || emprow.empid);
+-- end;
+
+-- select * from employee;
+
+-- declare
+-- 	salaryValue employee.salary%TYPE;
+-- 	empidValue employee.empid%TYPE;
+-- begin
+-- 	select emp.salary, emp.empid into salaryValue, empidValue from employee emp where empid = 1;
+-- 	if salaryValue < 2 then
+-- 		salaryValue := 10 + salaryValue;
+-- 	elsif salaryValue > 2 and salaryValue <= 10 then
+-- 		salaryValue := 20 + salaryValue;
+-- 	else
+--         salaryValue := 30 + salaryValue;
+-- 	end if;
+-- 	update employee set salary = salaryValue where empid=empidValue;
+-- end;
+
+-- select * from employee;
+
+
+				-- Loops:-
+
+-- declare
+--     i int;
+-- begin
+-- 	i:=0;
+--     loop
+--     	dbms_output.put_line(i);
+-- 		i:=i+1;
+-- 		exit when i>10;
+-- 	end loop;
+-- end;
+
+-- while loop
+
+-- declare
+-- 	i int;
+-- begin
+-- 	i:=0;
+--     while i < 10 loop
+--     dbms_output.put_line(i);
+--     i := i+1;
+-- 	end loop;
+-- end;
+
+-- for loop --> python
